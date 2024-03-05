@@ -157,7 +157,7 @@ IF NOT EXIST %model_path% (
 ECHO.
 ECHO %info_h1%Step 1/6 - Move (cd) to Project Path%ansi_end%
 call cd %model_path% >NUL 2>NUL
-
+@echo %conda_path% > condapath.txt
 :: Install Conda Required
 ECHO.
 ECHO %info_h1%Step 2/6 - Install Miniconda for Project%ansi_end%

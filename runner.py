@@ -1,3 +1,8 @@
+import os, sys
+APP_PATH = os.path.dirname(os.path.realpath(__file__))
+CDIR = os.getcwd()
+os.chdir(APP_PATH)
+
 import argparse
 import datetime
 import inspect
@@ -25,7 +30,6 @@ from pathlib import Path
 from diffusers.training_utils import set_seed
 
 
-import os, sys
 import time, re, json, shutil
 import requests, subprocess
 import yaml
@@ -79,7 +83,7 @@ DEBUG = False
 from desota import detools
 #   > Grab DeSOTA Paths
 USER_SYS = detools.get_platform()
-APP_PATH = os.path.dirname(os.path.realpath(__file__))
+
 #   > USER_PATH
 if USER_SYS == "win":
     path_split = str(APP_PATH).split("\\")
@@ -296,6 +300,7 @@ def main(args):
      
     if not os.path.isfile(out_filepath):
         print(f"[ ERROR ] -> DeSOTA FreeAnimateInit API Output ERROR: No results can be parsed for this request")
+        os.chdir(CDIR)
         exit(2)
         
     #print(f"[ INFO ] -> Response:\n{json.dumps(r, indent=2)}")
@@ -327,12 +332,16 @@ def main(args):
 
         if send_task.status_code != 200:
             print(f"[ ERROR ] -> DeSOTA SD.Next API Post Failed (Info):\nfiles: {files}\nResponse Code: {send_task.status_code}")
+            os.chdir(CDIR)
             exit(3)
     
     print("TASK OK!")
+    os.chdir(CDIR)
     exit(0)
 
 
 if __name__ == "__main__":
     args = parser.parse_args()
     main(args)
+    os.chdir(CDIR)
+    exit(1)
